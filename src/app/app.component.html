@@ -1,0 +1,72 @@
+<main class="main">
+    <div class="content">
+        <div class="container">
+            <form class="currency-form" 
+                  id="form-container"
+                  [formGroup]="form"
+                  (ngSubmit)="onSubmit()">
+                <h2 class="header">Currency Converter</h2>
+                <mat-form-field>
+                    <mat-label for="from">From</mat-label>
+                    <mat-select name="from" id="from" formControlName="from" (selectionChange)="onCurrencyChange()">
+                        @for (currency of currencyCodes; track currency) {
+                          <mat-option [value]="currency">{{currency}}</mat-option>
+                        }
+                    </mat-select>
+
+                    @if (form.get('from')?.hasError('required')) {
+                        <mat-error>
+                            Field is Required
+                        </mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label for="to">To</mat-label>
+                    <mat-select name="to" id="to" formControlName="to" (selectionChange)="onCurrencyChange()">
+                        @for (currency of currencyCodes; track currency) {
+                            <mat-option [value]="currency">{{currency}}</mat-option>
+                        }
+                    </mat-select>
+                    @if (form.get('to')?.hasError('areSame')) {
+                        <mat-error>
+                            Currencies must be different
+                        </mat-error>
+                    }
+                    @if (form.get('to')?.hasError('required')) {
+                        <mat-error>
+                            Field is required
+                        </mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field [class.error]="form.get('amount')?.touched && form.get('amount')?.invalid">
+                    <mat-label for="amount">Amount</mat-label>
+                    <input  matInput
+                            type="number"
+                            id="amount"
+                            placeholder="Enter Amount"
+                            formControlName="amount"
+                            (input)="onChange($event)"/>
+                    @if (form.get('amount')?.hasError('required')) {
+                        <mat-error>
+                            Field is required
+                        </mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field [class.error]="form.get('amount')?.touched && form.get('amount')?.invalid">
+                    <mat-label for="coverted-amount">Converted Amount</mat-label>
+                    <input matInput
+                          type="number"
+                          id="coverted-amount"
+                          placeholder="Converted Amount"
+                          formControlName="converted_amount"/>
+                </mat-form-field>
+                <div class="">{{ resultText }}</div>
+                <div class="button-block">
+                    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Convert</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<router-outlet />

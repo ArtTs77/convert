@@ -1,0 +1,15 @@
+.container {
+    padding: 20px;
+
+    form#form-container {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+    }
+
+    .button-block {
+        display: flex;
+        justify-content: flex-start;
+        padding-top: 10px;
+    }
+}
